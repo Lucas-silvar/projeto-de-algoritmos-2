@@ -6,7 +6,7 @@ typedef struct{
     int x, y;
 } Posicao;
 
-typedef struct{
+typedef struct Node{
     Posicao pos;
     int custo;
     struct Node* parent;
@@ -135,17 +135,46 @@ int menorCaminho(Posicao inicio, Posicao fim, int** tabuleiro, int N) {
 }
 
 int main() {
-    
-    int N;
-    printf("Digite o tamanho do tabuleiro (N x N): ");
-    scanf("%d", &N);
 
-   
+    int N;
+
     Posicao inicio, fim;
-    printf("Digite as coordenadas de inicio (x y): ");
-    scanf("%d %d", &inicio.x, &inicio.y);
-    printf("Digite as coordenadas de fim (x y): ");
-    scanf("%d %d", &fim.x, &fim.y);
+
+    FILE *pont_arq;
+
+    //abrindo o arquivo no modo leitura
+    pont_arq = fopen("data/tab3.txt", "r");
+
+    //verifica se foi aberto com sucesso 
+    if (pont_arq == NULL) {
+        printf("Erro ao abrir o arquivo!");
+        return 1;
+    }
+
+    //le o valor de N
+    if (fscanf(pont_arq, "%d\n", &N) != 1) {
+        printf("Erro ao ler N!\n");
+        fclose(pont_arq);
+        return 1;
+    }
+
+    //le a pos inicial
+    if (fscanf(pont_arq, "%d %d\n", &inicio.x, &inicio.y) != 2) {
+        printf("Erro ao ler as coordenadas de inicio!\n");
+        fclose(pont_arq);
+        return 1;
+    }
+
+    //le a pos final
+    if (fscanf(pont_arq, "%d %d\n", &fim.x, &fim.y) != 2) {
+        printf("Erro ao ler as coordenadas de fim!\n");
+        fclose(pont_arq);
+        return 1;
+    }
+
+    // Fechando o arquivo
+    fclose(pont_arq);
+
 
     int** tabuleiro = (int**)malloc(N * sizeof(int*));
     for (int i = 0; i < N; i++) {
@@ -154,7 +183,6 @@ int main() {
             tabuleiro[i][j] = -1;
         }
     }
-
 
     int resultado = menorCaminho(inicio, fim, tabuleiro, N);
     if (resultado != -1) {
