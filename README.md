@@ -15,6 +15,7 @@ Funcionalidades:
 Encontrar o caminho mínimo de passos para o deslocamento do cavalo.
 
 Modo de uso:
+
 Selecionar um dos arquivos txt, sendo eles tab1, tab2 ou tab3, mudando no código como nos exemplos abaixo (de acordo com o seu diretório):
 
 tab1:
@@ -27,6 +28,7 @@ tab3:
 dadosDoArquivo = fopen("data/tab3.txt", "r");
 
 editar o .txt da seguinte forma:
+
 10    //onde a primeira linha representara o tamanho do tabuleiro, nesse caso N = 10, onde o tamanho do tabuleiro é definido por NxN
 
 1 1   //Define x0 e y0, ou seja, a posição inicial do cavalo (colocar um espaço entre o valor x0 e o valor y0)
