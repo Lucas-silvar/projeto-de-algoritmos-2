@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 // Definição da struct Posicao para armazenar os valores iniciais e finais do cavalo
 typedef struct
@@ -90,6 +91,8 @@ int menorCaminho(Posicao inicio, Posicao fim, int **tabuleiro, int tamanhoDoTabu
     fila[tras++] = raiz;
     visitado[inicio.x][inicio.y] = 1;
 
+    int limitanteSuperior = INT_MAX; // Inicializa o limitante superior
+
     // Loop que explora os nós da fila
     while (frente < tras)
     {
@@ -115,11 +118,15 @@ int menorCaminho(Posicao inicio, Posicao fim, int **tabuleiro, int tamanhoDoTabu
             int novoX = x + movimentos[i][0];
             int novoY = y + movimentos[i][1];
 
-            if (ehValida(novoX, novoY, tamanhoDoTabuleiro) && !visitado[novoX][novoY])
-            {                               // Verifica se a nova posição é válida e ainda
-                visitado[novoX][novoY] = 1; // não foi visitada
-                // Marca a nova posição como visitada e adiciona o novo nó na fila
-                fila[tras++] = criarNo(novoX, novoY, numeroDePassos + 1, atual);
+            if (ehValida(novoX, novoY, tamanhoDoTabuleiro) && !visitado[novoX][novoY]) // Verifica se a nova posição é válida e ainda
+            {
+                int limitanteInferior = abs(fim.x - novoX) + abs(fim.y - novoY); // define limite inferior
+
+                if (numeroDePassos + 1 + limitanteInferior < limitanteSuperior)
+                {
+                    visitado[novoX][novoY] = 1;
+                    fila[tras++] = criarNo(novoX, novoY, numeroDePassos + 1, atual); // Marca a nova posição como visitada e adiciona o novo nó na fila
+                }
             }
         }
     }
@@ -130,7 +137,7 @@ int menorCaminho(Posicao inicio, Posicao fim, int **tabuleiro, int tamanhoDoTabu
     }
     free(visitado);
     free(fila);
-    return -1;
+    return (limitanteSuperior == INT_MAX) ? -1 : limitanteSuperior;
 }
 
 // Mostra o tabuleiro com os passos dados do cavalo
@@ -164,7 +171,7 @@ int main()
 
     if (dadosDoArquivo == NULL)
     {
-        dadosDoArquivo = fopen("../data/tab3.txt", "r");
+        dadosDoArquivo = fopen("../../data/tab3.txt", "r");
     }
 
     // verifica se foi aberto com sucesso
