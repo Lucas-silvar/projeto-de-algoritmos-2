@@ -15,7 +15,7 @@ typedef struct no
 } no;
 
 // Cria um novo nó
-// Recebe como parêmetros a coordenada do cavalo no tabuleiro, o numeroDePassos para
+// Recebe como parâmetros a coordenada do cavalo no tabuleiro, o numeroDePassos para
 // realizar o próximo passo e o que será um nó pai
 no *criarNo(int x, int y, int numeroDePassos, no *parent)
 {
