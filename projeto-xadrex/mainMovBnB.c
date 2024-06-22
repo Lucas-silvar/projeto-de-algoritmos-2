@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 // Definição da struct Posicao para armazenar os valores iniciais e finais do cavalo
 typedef struct
@@ -14,6 +15,21 @@ typedef struct no
     struct no *parent;
 } no;
 
+int **criarTabuleiro(int **tabuleiro, int tamanhoDoTabuleiro)
+{
+    // cria a matriz "tabuleiro" e define todos os valores para "-1"
+    tabuleiro = (int **)malloc(tamanhoDoTabuleiro * sizeof(int *));
+    for (int i = 0; i < tamanhoDoTabuleiro; i++)
+    {
+        tabuleiro[i] = (int *)malloc(tamanhoDoTabuleiro * sizeof(int));
+        for (int j = 0; j < tamanhoDoTabuleiro; j++)
+        {
+            tabuleiro[i][j] = -1;
+        }
+    }
+
+    return tabuleiro;
+}
 // Cria um novo nó
 // Recebe como parâmetros a coordenada do cavalo no tabuleiro, o numeroDePassos para
 // realizar o próximo passo e o que será um nó pai
@@ -90,6 +106,8 @@ int menorCaminho(Posicao inicio, Posicao fim, int **tabuleiro, int tamanhoDoTabu
     fila[tras++] = raiz;
     visitado[inicio.x][inicio.y] = 1;
 
+    int limitanteSuperior = INT_MAX; // Inicializa o limitante superior
+
     // Loop que explora os nós da fila
     while (frente < tras)
     {
@@ -115,11 +133,15 @@ int menorCaminho(Posicao inicio, Posicao fim, int **tabuleiro, int tamanhoDoTabu
             int novoX = x + movimentos[i][0];
             int novoY = y + movimentos[i][1];
 
-            if (ehValida(novoX, novoY, tamanhoDoTabuleiro) && !visitado[novoX][novoY])
-            {                               // Verifica se a nova posição é válida e ainda
-                visitado[novoX][novoY] = 1; // não foi visitada
-                // Marca a nova posição como visitada e adiciona o novo nó na fila
-                fila[tras++] = criarNo(novoX, novoY, numeroDePassos + 1, atual);
+            if (ehValida(novoX, novoY, tamanhoDoTabuleiro) && !visitado[novoX][novoY]) // Verifica se a nova posição é válida e ainda
+            {
+                int limitanteInferior = abs(fim.x - novoX) + abs(fim.y - novoY); // define limite inferior
+
+                if (numeroDePassos + 1 + limitanteInferior < limitanteSuperior)
+                {
+                    visitado[novoX][novoY] = 1;
+                    fila[tras++] = criarNo(novoX, novoY, numeroDePassos + 1, atual); // Marca a nova posição como visitada e adiciona o novo nó na fila
+                }
             }
         }
     }
@@ -130,7 +152,7 @@ int menorCaminho(Posicao inicio, Posicao fim, int **tabuleiro, int tamanhoDoTabu
     }
     free(visitado);
     free(fila);
-    return -1;
+    return (limitanteSuperior == INT_MAX) ? -1 : limitanteSuperior;
 }
 
 // Mostra o tabuleiro com os passos dados do cavalo
@@ -151,31 +173,21 @@ void imprimirTabuleiro(int **tabuleiro, int tamanhoDoTabuleiro)
     }
 }
 
-int main()
+int lerDadosDoArquivo(const char *caminho, int *tamanhoDoTabuleiro, Posicao *inicio, Posicao *fim)
 {
-    int tamanhoDoTabuleiro;
-
-    Posicao inicio, fim;
-
     FILE *dadosDoArquivo;
 
     // abrindo o arquivo no modo leitura
-    dadosDoArquivo = fopen("data/tab3.txt", "r");
+    dadosDoArquivo = fopen(caminho, "r");
 
     if (dadosDoArquivo == NULL)
     {
-        dadosDoArquivo = fopen("../data/tab3.txt", "r");
-    }
-
-    // verifica se foi aberto com sucesso
-    if (dadosDoArquivo == NULL)
-    {
-        printf("Erro ao abrir o arquivo!");
+        printf("Erro ao abrir o arquivo!\n");
         return 1;
     }
 
     // lê o valor de tamanhoDoTabuleiro
-    if (fscanf(dadosDoArquivo, "%d\n", &tamanhoDoTabuleiro) != 1)
+    if (fscanf(dadosDoArquivo, "%d\n", tamanhoDoTabuleiro) != 1)
     {
         printf("Erro ao ler tamanhoDoTabuleiro!\n");
         fclose(dadosDoArquivo);
@@ -183,7 +195,7 @@ int main()
     }
 
     // lê a posição inicial
-    if (fscanf(dadosDoArquivo, "%d %d\n", &inicio.x, &inicio.y) != 2)
+    if (fscanf(dadosDoArquivo, "%d %d\n", &inicio->x, &inicio->y) != 2)
     {
         printf("Erro ao ler as coordenadas de início!\n");
         fclose(dadosDoArquivo);
@@ -191,7 +203,7 @@ int main()
     }
 
     // lê a posição final
-    if (fscanf(dadosDoArquivo, "%d %d\n", &fim.x, &fim.y) != 2)
+    if (fscanf(dadosDoArquivo, "%d %d\n", &fim->x, &fim->y) != 2)
     {
         printf("Erro ao ler as coordenadas de fim!\n");
         fclose(dadosDoArquivo);
@@ -201,18 +213,21 @@ int main()
     // Fechando o arquivo
     fclose(dadosDoArquivo);
 
-    // cria a matriz "tabuleiro" e define todos os valores para "-1"
-    int **tabuleiro = (int **)malloc(tamanhoDoTabuleiro * sizeof(int *));
+    return 0;
+}
+
+void liberarTabuleiro(int **tabuleiro, int tamanhoDoTabuleiro)
+{
     for (int i = 0; i < tamanhoDoTabuleiro; i++)
-    {
-        tabuleiro[i] = (int *)malloc(tamanhoDoTabuleiro * sizeof(int));
-        for (int j = 0; j < tamanhoDoTabuleiro; j++)
-        {
-            tabuleiro[i][j] = -1;
-        }
+    { // percorre linha a linha, liberando espaço de memoria dos elementos da matriz
+        free(tabuleiro[i]);
     }
 
-    int resultado = menorCaminho(inicio, fim, tabuleiro, tamanhoDoTabuleiro);
+    free(tabuleiro); // libera espaço de memoria do "tabuleiro"
+}
+
+void imprimirResposta(int resultado, int **tabuleiro, int tamanhoDoTabuleiro)
+{
     if (resultado != -1)
     {
         printf("Caminho encontrado com %d passos:\n", resultado); // imprime o numero de passos que o cavalo deu para chegar ao ponto final, junto com a matriz embaixo
@@ -221,13 +236,31 @@ int main()
     else
         printf("Não foi possível encontrar um caminho.\n"); // uma vez que todos os valores da matriz foram inicializados com o valor "-1", caso o valor encontrado para
                                                             //  "resultado" ainda seja "-1", nao foi encontrado um caminho, já que nao foi alterado o valor
+}
 
-    for (int i = 0; i < tamanhoDoTabuleiro; i++)
-    { // percorre linha a linha, liberando espaço de memoria dos elementos da matriz
-        free(tabuleiro[i]);
+int main()
+{
+    const char *caminhosArquivos[] = {
+        "data/tab1.txt",
+        "data/tab2.txt",
+        "../../data/tab3.txt"};
+    int numeroDeArquivos = sizeof(caminhosArquivos) / sizeof(caminhosArquivos[0]);
+
+    int tamanhoDoTabuleiro;
+    Posicao inicio, fim;
+    for (int i = 0; i < numeroDeArquivos; i++)
+    {
+        // Ler os dados do arquivo
+        if (lerDadosDoArquivo(caminhosArquivos[i], &tamanhoDoTabuleiro, &inicio, &fim) != 0)
+            continue; // Pula para o próximo arquivo se houver erro
     }
 
-    free(tabuleiro); // libera espaço de memoria do "tabuleiro"
+    int **tabuleiro = NULL;
+    tabuleiro = criarTabuleiro(tabuleiro, tamanhoDoTabuleiro);
+
+    int resultado = menorCaminho(inicio, fim, tabuleiro, tamanhoDoTabuleiro);
+
+    imprimirResposta(resultado, tabuleiro, tamanhoDoTabuleiro);
 
     return 0;
 }
