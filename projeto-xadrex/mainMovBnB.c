@@ -209,6 +209,9 @@ int lerDadosDoArquivo(const char *caminho, int *tamanhoDoTabuleiro, Posicao *ini
         fclose(dadosDoArquivo);
         return 1;
     }
+    printf("Tamanho do tabuleiro: %d\n", *tamanhoDoTabuleiro);
+    printf("Cordenada inicial: %d %d\n", inicio->x, inicio->y);
+    printf("Coordenada final: %d %d\n", fim->x, fim->y);
 
     // Fechando o arquivo
     fclose(dadosDoArquivo);
