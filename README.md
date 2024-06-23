@@ -1,5 +1,4 @@
 # Deslocamento do Cavalo no Xadrez
-
 *Este é um projeto desenvolvido como parte da disciplina de Algoritmos e Estrutura de Dados 2 do curso de Engenharia de Computação, pelos alunos: .*
   - Allef Fernandes Santos;
   - Lucas Arruda Silva;
@@ -16,7 +15,7 @@
 ## Funcionalidades:
  - Encontrar o caminho mínimo de passos para o deslocamento do cavalo;
  - Deve ser destacado que o a posição linha 1, coluna 1, é representado por (0,0), ou seja o valor local na matriz pode ser determinado por (x-1, y-1);
- - O ponto (0,0) está no canto superior esquerdo.
+ - O ponto (0,0) está localizado no canto superior esquerdo.
 
 ## Modo de uso:
  - Selecionar um dos arquivos txt, sendo eles tab1, tab2 ou tab3, mudando no código como nos exemplos abaixo (de acordo com o seu diretório):
