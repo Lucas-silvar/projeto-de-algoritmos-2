@@ -240,19 +240,17 @@ void imprimirResposta(int resultado, int **tabuleiro, int tamanhoDoTabuleiro)
 
 int main()
 {
-    const char *caminhosArquivos[] = {
-        "data/tab1.txt",
-        "data/tab2.txt",
-        "../../data/tab3.txt"};
-    int numeroDeArquivos = sizeof(caminhosArquivos) / sizeof(caminhosArquivos[0]);
+    const char *caminhoArquivo = "../../data/tab2.txt";
 
     int tamanhoDoTabuleiro;
     Posicao inicio, fim;
-    for (int i = 0; i < numeroDeArquivos; i++)
+
+    // Ler os dados do arquivo
+    if (lerDadosDoArquivo(caminhoArquivo, &tamanhoDoTabuleiro, &inicio, &fim) != 0)
     {
-        // Ler os dados do arquivo
-        if (lerDadosDoArquivo(caminhosArquivos[i], &tamanhoDoTabuleiro, &inicio, &fim) != 0)
-            continue; // Pula para o próximo arquivo se houver erro
+        // Tratar erro de leitura do arquivo
+        fprintf(stderr, "Erro ao ler o arquivo: %s\n", caminhoArquivo);
+        return 1;
     }
 
     int **tabuleiro = NULL;
@@ -261,6 +259,13 @@ int main()
     int resultado = menorCaminho(inicio, fim, tabuleiro, tamanhoDoTabuleiro);
 
     imprimirResposta(resultado, tabuleiro, tamanhoDoTabuleiro);
+
+    // Liberar memória alocada para o tabuleiro, se necessário
+    for (int i = 0; i < tamanhoDoTabuleiro; i++)
+    {
+        free(tabuleiro[i]);
+    }
+    free(tabuleiro);
 
     return 0;
 }
