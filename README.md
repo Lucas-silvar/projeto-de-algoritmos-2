@@ -16,7 +16,7 @@ Encontrar o caminho mínimo de passos para o deslocamento do cavalo.
 
 Deve ser destacado que o a posição linha 1, coluna 1, é representado por (0,0), ou seja o valor local na matriz pode ser determinado por  (x-1, y-1).
 
-O ponto (0,0) está no canto superior direito).
+O ponto (0,0) está no canto superior direito.
 
 Modo de uso:
 
