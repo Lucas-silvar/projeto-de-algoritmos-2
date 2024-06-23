@@ -14,6 +14,10 @@ Funcionalidades:
 
 Encontrar o caminho mínimo de passos para o deslocamento do cavalo.
 
+Deve ser destacado que o a posição linha 1, coluna 1, é representado por (0,0), ou seja o valor local na matriz pode ser determinado por  (x-1, y-1).
+
+O ponto (0,0) está no canto superior direito.
+
 Modo de uso:
 
 Selecionar um dos arquivos txt, sendo eles tab1, tab2 ou tab3, mudando no código como nos exemplos abaixo (de acordo com o seu diretório):
@@ -26,6 +30,8 @@ dadosDoArquivo = fopen("data/tab2.txt", "r");
 
 tab3:
 dadosDoArquivo = fopen("data/tab3.txt", "r");
+
+Algo que deve ser prestado atenção, é que o "data/tab1.txt", obtido para "tab1", foi copiado o diretório onde estava o arquivo. Vale lembrar que no windows é utilizado "\" para separar entre os diretorios, já no linux é utilizado o "/".
 
 editar o .txt da seguinte forma:
 
