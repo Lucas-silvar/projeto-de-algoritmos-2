@@ -1,5 +1,5 @@
 # Deslocamento do Cavalo no Xadrez
-*Este é um projeto desenvolvido como parte da disciplina de Algoritmos e Estrutura de Dados 2 do curso de Engenharia de Computação, pelos alunos: .*
+*Este é um projeto desenvolvido como parte da disciplina de Algoritmos e Estrutura de Dados 2 do curso de Engenharia de Computação, pelos alunos:*
   - Allef Fernandes Santos;
   - Lucas Arruda Silva;
   - Lucas Tarcisio Morais Pies;
@@ -30,7 +30,7 @@
  - Deve ser levado em consideração, que o "data/tab1.txt", obtido para "tab1", foi copiado o diretório onde estava o arquivo.
 
   ### Observações:
-  - ***Vale lembrar que no windows é utilizado " \ " para separar entre os diretorios, já no linux é utilizado o " / ".***
+  - ***Vale lembrar que no windows é utilizado " \ " para separar entre os diretórios, já no linux é utilizado o " / ".***
   - ***Editar o .txt da seguinte forma:***
     - 10     // A primeira linha representa o tamanho do tabuleiro, neste caso N = 10, onde o tamanho do tabuleiro é definido por NxN;
     - 1 1   // Define x0 e y0, ou seja, a posição inicial do cavalo (colocar um espaço entre o valor x0 e o valor y0);
