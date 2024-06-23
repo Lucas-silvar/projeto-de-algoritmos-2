@@ -237,7 +237,7 @@ void imprimirResposta(int resultado, int **tabuleiro, int tamanhoDoTabuleiro)
         imprimirTabuleiro(tabuleiro, tamanhoDoTabuleiro);         // mostrando qual foi o caminho que o cavalo percorreu
     }
     else
-        printf("Não foi possível encontrar um caminho.\n"); // uma vez que todos os valores da matriz foram inicializados com o valor "-1", caso o valor encontrado para
+        printf("Nao foi possivel encontrar um caminho.\n"); // uma vez que todos os valores da matriz foram inicializados com o valor "-1", caso o valor encontrado para
                                                             //  "resultado" ainda seja "-1", nao foi encontrado um caminho, já que nao foi alterado o valor
 }
 
