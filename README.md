@@ -21,16 +21,19 @@
 ## Modo de uso:
  - Selecionar um dos arquivos txt, sendo eles tab1, tab2 ou tab3, mudando no código como nos exemplos abaixo (de acordo com o seu diretório):
 
-  1. **tab1:** dadosDoArquivo = fopen("data/tab1.txt", "r");
-  2. **tab2:** dadosDoArquivo = fopen("data/tab2.txt", "r");
-  3. **tab3:** dadosDoArquivo = fopen("data/tab3.txt", "r");
+  1. **tab1:**
+     ```dadosDoArquivo = fopen("data/tab1.txt", "r");```
+  3. **tab2:**
+     ```dadosDoArquivo = fopen("data/tab2.txt", "r");```
+  5. **tab3:**
+     ```dadosDoArquivo = fopen("data/tab3.txt", "r");```
 
- - Algo que deve ser levado em consideração, é que o "data/tab1.txt", obtido para "tab1", foi copiado o diretório onde estava o arquivo. 
+ - Algo que deve ser levado em consideração, é que o "data/tab1.txt", obtido para "tab1", foi copiado o diretório onde estava o arquivo.
 
-***Vale lembrar que no windows é utilizado "\" para separar entre os diretorios, já no linux é utilizado o "/".***
-
-  ### Editar o .txt da seguinte forma:
-10    // A primeira linha representa o tamanho do tabuleiro, neste caso N = 10, onde o tamanho do tabuleiro é definido por NxN;
-1 1   // Define x0 e y0, ou seja, a posição inicial do cavalo (colocar um espaço entre o valor x0 e o valor y0);
-7 9   // Define xf e yf, ou seja, a posição final que o cavalo deve chegar (colocar um espaço entre o valor xf e o valor yf);
+  ### Observações:
+  - ***Vale lembrar que no windows é utilizado "\" para separar entre os diretorios, já no linux é utilizado o "/".***
+  - ***Editar o .txt da seguinte forma:***
+    - 10    // A primeira linha representa o tamanho do tabuleiro, neste caso N = 10, onde o tamanho do tabuleiro é definido por NxN;
+    - 1 1   // Define x0 e y0, ou seja, a posição inicial do cavalo (colocar um espaço entre o valor x0 e o valor y0);
+    - 7 9   // Define xf e yf, ou seja, a posição final que o cavalo deve chegar (colocar um espaço entre o valor xf e o valor yf);
 
